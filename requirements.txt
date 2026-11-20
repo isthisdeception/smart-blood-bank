@@ -1,0 +1,5 @@
+# Smart Blood Bank & Emergency Donor Matching System
+# Dependencies
+mysql-connector-python>=8.0.30
+rich>=13.0.0
+python-dotenv>=1.0.0
