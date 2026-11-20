@@ -21,6 +21,7 @@
 8. [Interactive CLI User Manual](#-interactive-cli-user-manual)
 9. [Complex Analytical Queries Explained](#-complex-analytical-queries-explained)
 10. [Demonstration & Grading Evaluation Script](#-demonstration--grading-evaluation-script)
+11. [নতুনদের জন্য বাংলায় স্টেপ-বাই-স্টেপ গাইড (Bangla Beginner Guide)](#-নতুনদের-জন্য-বাংলায়-স্টেপ-বাই-স্টেপ-গাইড-bangla-beginner-guide)
 
 ---
 
@@ -397,6 +398,137 @@ Follow this step-by-step sequence during a live course demonstration:
    * Go to `[3]` (Analytics Hub) -> `[3]` (Critical Stock Shortage Monitor).
    * Observe: Even blood types with 0 units available appear clearly in `CriticalShortageView` with `CRITICAL (EMPTY)` alert and deficit unit counts.
    * Go to `[3]` -> `[1]` (Hospital Fulfillment Report) to show `LEFT JOIN` and `GROUP BY` analytics.
+
+---
+
+## 🇧🇩 নতুনদের জন্য বাংলায় স্টেপ-বাই-স্টেপ গাইড (Bangla Beginner Guide)
+
+আপনি যদি একদম নতুন হন এবং আপনার নিজের ল্যাপটপে এই প্রজেক্টটি ডাউনলোড করে প্রথমবারের মতো চালু করতে চান, তাহলে নিচের ধাপগুলো ক্রমানুসারে অনুসরণ করুন:
+
+### ১. আপনার ল্যাপটপে যা যা ইনস্টল থাকতে হবে (Prerequisites)
+১. **Python 3.9 বা তার চেয়ে নতুন ভার্সন:**
+   - [python.org](https://www.python.org/downloads/) থেকে পাইথন ডাউনলোড করে ইনস্টল করুন। 
+   - ⚠️ ইনস্টল করার সময় অবশ্যই নিচের **"Add python.exe to PATH"** বক্সে টিক চিহ্ন দিন।
+২. **MySQL Server:**
+   - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) অথবা **XAMPP / WampServer** (যার ভেতর MySQL আছে) ইনস্টল করে চালু রাখুন।
+   - ইনস্টল করার সময় আপনার দেওয়া MySQL পাসওয়ার্ডটি মনে রাখুন (সাধারণত XAMPP-তে `root` ইউজারের পাসওয়ার্ড ফাঁকা থাকে, আর MySQL Installer-এ আপনার দেওয়া পাসওয়ার্ড থাকে)।
+৩. **Git (অথবা সরাসরি জিপ ডাউনলোড):**
+   - কোড নামানোর জন্য [Git](https://git-scm.com/) অথবা ব্রাউজার থেকে সরাসরি ZIP ডাউনলোড করলেও চলবে।
+
+---
+
+### ২. ধাপ ১: প্রজেক্টটি আপনার কম্পিউটারে নামান (Clone / Download)
+
+আপনার কম্পিউটারের **Terminal / PowerShell / Command Prompt** ওপেন করে যে ফোল্ডারে প্রজেক্ট রাখতে চান সেখানে যান এবং নিচের কমান্ডটি লিখুন:
+
+```bash
+git clone https://github.com/isthisdeception/smart-blood-bank.git
+cd smart-blood-bank
+```
+*(অথবা গিটহাব রিপোজিটরির সবুজ **Code** বাটনে ক্লিক করে **Download ZIP** করে ফাইলটি এক্সট্র্যাক্ট করে ফোল্ডারে ঢুকুন।)*
+
+---
+
+### ৩. ধাপ ২: পাইথনের প্যাকেজগুলো ইনস্টল করুন
+
+প্রজেক্ট ফোল্ডারে টার্মিনাল চালু রেখে নিচের কমান্ডটি দিয়ে প্রয়োজনীয় প্যাকেজগুলো (`mysql-connector-python`, `rich`, `python-dotenv`) ইনস্টল করে নিন:
+
+```bash
+pip install -r requirements.txt
+```
+> *(যদি উইন্ডোজের কোনো রেস্ট্রিকশনের কারণে `pip` সরাসরি কাজ না করে, তবে `python -m pip install -r requirements.txt` লিখুন।)*
+
+---
+
+### ৪. ধাপ ৩: ডাটাবেস পাসওয়ার্ড কনফিগার করুন (.env ফাইল তৈরি)
+
+প্রজেক্ট ফোল্ডারে `.env.example` নামে একটি নমুনা কনফিগারেশন ফাইল রয়েছে।
+১. এই ফাইলটি কপি করে একই ফোল্ডারে পেস্ট করে ফাইলের নাম দিন `.env`
+   - উইন্ডোজ পাওয়ারশেলে কমান্ড দিয়ে খুব সহজেই করতে পারেন:
+     ```powershell
+     cp .env.example .env
+     ```
+২. নোটপ্যাড বা VS Code দিয়ে `.env` ফাইলটি খুলুন এবং আপনার ল্যাপটপের MySQL পাসওয়ার্ড বসান:
+
+```ini
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=আপনার_mysql_পাসওয়ার্ড_এখানে_লিখুন
+DB_NAME=smart_blood_bank
+```
+*(যদি আপনি XAMPP ব্যবহার করেন এবং কোনো পাসওয়ার্ড না দিয়ে থাকেন, তবে `DB_PASSWORD=` ফাঁকা রাখবেন।)*
+
+---
+
+### ৫. ধাপ ৪: এক ক্লিকে ডাটাবেস টেবিল ও ডামি ডাটা তৈরি করুন (Automated Migration)
+
+আপনার MySQL সার্ভিসটি চালু আছে কি না নিশ্চিত করুন। এরপর টার্মিনালে নিচের কমান্ডটি রান করুন:
+
+```bash
+python init_db.py
+```
+
+**এই স্ক্রিপ্টটি স্বয়ংক্রিয়ভাবে যা যা করবে:**
+- এটি স্বয়ংক্রিয়ভাবে MySQL-এ `smart_blood_bank` ডাটাবেস তৈরি করবে।
+- সব টেবিল (DDL), ফরেন কি, চেক কনস্ট্রেইন্ট, ব্লাড কম্প্যাটিবিলিটি ম্যাট্রিক্স এবং ডামি ডাটা (DML) লোড করবে।
+- ট্রিগার, প্রসিডিউর এবং ভিউগুলো তৈরি করে টার্মিনালে একটি রঙিন সামারি টেবিল প্রদর্শন করবে।
+
+---
+
+### ৬. ধাপ ৫: মূল অ্যাপ্লিকেশনটি চালু করুন
+
+সবকিছু সেটআপ হয়ে গেলে নিচের কমান্ডটি দিয়ে মূল টার্মিনাল অ্যাপ চালু করুন:
+
+```bash
+python main.py
+```
+টার্মিনালে আকর্ষণীয় কালার-কোডেড প্রধান মেন্যু স্ক্রিন চালু হবে!
+
+---
+
+### ৭. ধাপ ৬: কীভাবে প্রজেক্টটি নিজে নিজে টেস্ট ও ডেমো করবেন?
+
+অ্যাপ চালু হওয়ার পর নিচের ফিচারগুলো নিজে নিজে টেস্ট করুন:
+
+#### ক) রক্তদাতার ৯০ দিনের কুলডাউন চেক ও নতুন রক্তদান (Admin Panel -> Option 2):
+- মেন্যু থেকে `[1]` চেপে **Admin Panel**-এ যান, এরপর `[2]` চাপুন।
+- **Donor ID 4** (Sophia Lin) লিখে সার্চ দিন। 
+  - *ফলাফল:* সিস্টেম লাল কালিতে দেখাবে **"90-DAY COOLDOWN RESTRICTION ACTIVE"** (২৫ দিন আগে রক্ত দিয়েছেন, এখনও ৬৫ দিন বাকি)। নতুন রক্তদান সাথে সাথে ব্লক করে দেবে!
+- এরপর **Donor ID 1** (Jonathan Doe) দিয়ে সার্চ দিন।
+  - *ফলাফল:* সিস্টেম সবুজ কালিতে জানাবে উনি রক্তদানের যোগ্য (১২৫ দিন আগে রক্ত দিয়েছিলেন)। রক্তদানের ভলিউম ও হিমোগ্লোবিন ইনপুট দিলে সিস্টেম স্বয়ংক্রিয়ভাবে ৪২ দিনের মেয়াদ হিসাব করে ইউনিক বারকোড সহ নতুন ব্লাড ব্যাগ শেলফে তুলে দেবে।
+
+#### খ) ডাটাবেস ট্রিগার টেস্ট (Admin Panel -> Option 3):
+- Admin Panel থেকে `[3]` চেপে Donor ID `1` সিলেক্ট করুন।
+- তার স্ট্যাটাস `Eligible` থেকে পরিবর্তন করে `Temporarily Ineligible` করুন এবং কারণ লিখুন।
+- *ফলাফল:* ডাটাবেসের `trg_donor_status_audit` ট্রিগারটি সাথে সাথে ফায়ার করবে এবং `donor_audit_log` টেবিলে পরিবর্তনটি রেকর্ড করে টার্মিনালে প্রমাণ প্রিন্ট করবে।
+
+#### গ) স্বয়ংক্রিয় মেয়াদোত্তীর্ণ রক্ত শনাক্তকরণ প্রসিডিউর (Admin Panel -> Option 6):
+- Admin Panel থেকে `[6]` চাপুন।
+- এটি `ExpireOldBloodBags()` প্রসিডিউর চালাবে এবং ৪২ দিন পার হয়ে যাওয়া রক্তের ব্যাগগুলোকে অটোমেটিক `Expired` হিসেবে চিহ্নিত করবে।
+
+#### ঘ) হাসপাতালে রক্ত বরাদ্দ ও ট্রানজ্যাকশন (Coordinator Portal -> Option 2):
+- মেইন মেন্যু থেকে `[2]` চেপে **Coordinator Portal**-এ যান, তারপর `[2]` (Real-Time ACID Blood Bag Allocation) চাপুন।
+- রিকুয়েস্ট নাম্বার `2` সিলেক্ট করুন (Northwestern Memorial Hospital-এর ৩ ইউনিট রক্ত প্রয়োজন)।
+- সিস্টেম FIFO পদ্ধতিতে সবচেয়ে পুরোনো মেয়াদযুক্ত উপযুক্ত রক্তের ব্যাগ নির্বাচন করবে এবং `SELECT ... FOR UPDATE` দিয়ে লক করবে।
+- `y` চাপলে ট্রানজ্যাকশন কমিট হবে এবং `trg_after_allocation_insert` ট্রিগার স্বয়ংক্রিয়ভাবে ব্যাগের স্ট্যাটাস `Allocated` বানিয়ে দেবে!
+
+#### ঙ) অ্যানালিটিক্যাল রিপোর্ট দেখা (Analytics Hub):
+- মেইন মেন্যু থেকে `[3]` চাপুন:
+  - `[1]` চাপলে দেখতে পাবেন কোন হাসপাতাল কত ইউনিট চেয়েছে এবং কত পার্সেন্ট ফুলফিল হয়েছে (`LEFT JOIN` & `GROUP BY`)।
+  - `[2]` চাপলে সিস্টেম গড়ের চেয়ে বেশি রক্ত দেওয়া সেরা দাতাদের লিডারবোর্ড দেখাবে (`HAVING` & `Subquery`)।
+  - `[3]` চাপলে কোন গ্রুপের রক্ত ৩ ইউনিটের কম বা একদম শূন্য স্টকে আছে তার রেড অ্যালার্ট দেখাবে (`CriticalShortageView`)।
+
+---
+
+### ৮. সাধারণ সমস্যা ও সমাধান (Troubleshooting)
+
+- **সমস্যা: `[Host Unreachable] Cannot connect to MySQL server at localhost:3306`**
+  - *সমাধান:* আপনার কম্পিউটারে MySQL সার্ভিস চালু নেই। Windows Services-এ গিয়ে `MySQL80` সার্ভিসটি Start করুন, অথবা XAMPP কন্ট্রোল প্যানেল ওপেন করে MySQL-এর পাশের `Start` বাটনে ক্লিক করুন।
+- **সমস্যা: `[Authentication Failed] Invalid username or password`**
+  - *সমাধান:* `.env` ফাইলে আপনার দেওয়া `DB_PASSWORD` ভুল হয়েছে। সঠিক MySQL পাসওয়ার্ড দিয়ে ফাইলটি সেভ করুন।
+- **সমস্যা: `python : The term 'python' is not recognized...`**
+  - *সমাধান:* পাইথন ইনস্টল করার সময় "Add Python to PATH" অপশনটি সিলেক্ট করা হয়নি। পাইথন ইনস্টলার আবার ওপেন করে "Modify" দিয়ে PATH অপশনে টিক দিয়ে দিন।
 
 ---
 
